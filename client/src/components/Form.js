@@ -6,16 +6,39 @@ class Form extends Component {
         super(props);
         this.state = {
             showAddBookBtn: false,
+            showEditForm: true,
             bookDetails: {
-                bookName: "",
-                author: "",
+                bookName: this.props.selectedBook.bookName
+                    ? this.props.selectedBook.bookName
+                    : "",
+                author: this.props.selectedBook.author
+                    ? this.props.selectedBook.author
+                    : "",
             },
         };
+        console.log(this.props);
     }
+
+    componentDidUpdate = () => {
+        if (!this.state.showAddBookBtn && this.props.selectedBook.bookId) {
+            this.setState({
+                ...this.state,
+                showAddBookBtn: true,
+            });
+        }
+    };
 
     toggleAddBookBtn = () => {
         this.setState({
+            ...this.state,
             showAddBookBtn: !this.state.showAddBookBtn,
+        });
+    };
+
+    handleCancel = () => {
+        this.setState({
+            ...this.state,
+            showAddBookBtn: false,
         });
     };
 
@@ -31,12 +54,26 @@ class Form extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addNewBook(this.state.bookDetails);
+        if (this.state.showEditForm) {
+            this.props.updateBook(this.state.bookDetails);
+        } else {
+            this.props.addNewBook(this.state.bookDetails);
+        }
+
+        this.setState({
+            ...this.state,
+            showAddBookBtn: false,
+            showEditForm: true,
+            bookDetails: {
+                bookName: "",
+                author: "",
+            },
+        });
     };
 
     render() {
         const { bookName, author } = this.state.bookDetails;
-
+        console.log(this.state);
         return (
             <div className="container-fw">
                 <div className="container">
@@ -81,7 +118,15 @@ class Form extends Component {
                                         onChange={this.handleChange}
                                     />
                                 </div>
-                                <button className="btn btn-sm">Submit</button>
+                                <button className="btn btn-sm me-2">
+                                    Submit
+                                </button>
+                                <button
+                                    className="btn btn-sm"
+                                    onClick={this.handleCancel}
+                                >
+                                    Cancel
+                                </button>
                             </form>
                         ) : (
                             <></>

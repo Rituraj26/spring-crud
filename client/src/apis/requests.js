@@ -18,6 +18,15 @@ const addBook = async (data) => {
     }
 };
 
+const editBook = async (data) => {
+    try {
+        const book = await axios.put("/book", data);
+        return book;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const deleteBook = async (id) => {
     try {
         await axios.delete(`/book/${id}`);
@@ -26,4 +35,4 @@ const deleteBook = async (id) => {
     }
 };
 
-export { getBooks, addBook, deleteBook };
+export { getBooks, addBook, editBook, deleteBook };

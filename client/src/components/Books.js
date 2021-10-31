@@ -16,6 +16,7 @@ class Books extends Component {
                             <Card
                                 key={book.bookId}
                                 book={book}
+                                editBook={this.props.editBook}
                                 deleteBook={this.props.deleteBook}
                             />
                         ))}

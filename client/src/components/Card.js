@@ -10,13 +10,22 @@ class Card extends Component {
         this.props.deleteBook(id);
     };
 
+    handleEdit = (book) => {
+        this.props.editBook(book);
+    };
+
     render() {
         return (
             <div className="card">
                 <div className="card-body">
                     <h2>{this.props.book.bookName}</h2>
                     <p>{this.props.book.author}</p>
-                    <button className="btn btn-sm me-2">Edit</button>
+                    <button
+                        className="btn btn-sm me-2"
+                        onClick={() => this.handleEdit(this.props.book)}
+                    >
+                        Edit
+                    </button>
                     <button
                         className="btn btn-sm"
                         onClick={() =>
